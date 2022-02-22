@@ -19,7 +19,7 @@ Se pasa el id del carrito en el PATH
 
 ### POST /carrito/add
 
-Agrega una unidad de producto. Recibe un JSON con este formato
+Agrega una unidad de producto. Toma solo el precio del primer producto con ese nombre. Recibe un JSON con este formato
 
 {
 "nombre": "lavandina",

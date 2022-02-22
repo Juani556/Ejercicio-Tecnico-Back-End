@@ -42,7 +42,7 @@ public class CarritoService {
     @Autowired
     private CarritoMapper carritoMapper;
 
-    public void crearCarrito(String documento, Boolean isSpecial) {
+    public String crearCarrito(String documento, Boolean isSpecial) {
 
         Usuario usuario = userService.getUsuario(documento);
 
@@ -52,33 +52,49 @@ public class CarritoService {
 
         Carrito carrito = carritoRepository.findByUsuarioAndFinalizadoIsFalse(usuario.getIdUsuario());
 
+        StringBuilder sb = new StringBuilder("Carrito con id: ");
+
         if (carrito == null) {
             carrito = new Carrito();
             carrito.setFinalizado(false);
             carrito.setIsSpecial(isSpecial);
             carrito.setUsuario(usuario.getIdUsuario());
             carritoRepository.save(carrito);
+            sb.append(carrito.getIdCarrito()).append(" creado con éxito.");
+        } else {
+            sb.append(carrito.getIdCarrito()).append(" esta en uso.");
         }
+
+        return sb.toString();
     }
 
-    public void borrarCarrito(Long idCarrito) {
+    public String borrarCarrito(Long idCarrito) {
+
+        StringBuilder sb = new StringBuilder();
 
         try {
-            carritoRepository.deleteById(idCarrito);
+            carritoRepository.deleteByIdCarritoAndFinalizadoIsFalse(idCarrito);
+            sb.append("Carrito con id: ").append(idCarrito).append(" eliminado con éxito.");
         } catch (EmptyResultDataAccessException e) {
-
+            sb.append("No existe carrito no finalizado con Id: ").append(idCarrito);
         }
+
+        return sb.toString();
 
     }
 
-    public void agregarProducto(Long idCarrito, String nombre, Integer precio) {
+    public String agregarProducto(Long idCarrito, String nombre, Integer precio) {
 
-        Producto producto = productoRepository.findByNombreAndCarrito(nombre, idCarrito);
+        StringBuilder sb = new StringBuilder();
+
         Optional<Carrito> carrito = carritoRepository.findById(idCarrito);
 
         if (carrito.isEmpty()) {
-            return;
+            sb.append("No existe carrito activo con id: ").append(idCarrito);
+            return sb.toString();
         }
+
+        Producto producto = productoRepository.findByNombreAndCarrito(nombre, idCarrito);
 
         if (producto == null) {
             producto = new Producto();
@@ -90,11 +106,19 @@ public class CarritoService {
             producto.setCantidad(producto.getCantidad() + 1);
         }
 
+        sb.append("Producto agregado con éxito al carrito");
+
+        return sb.toString();
+
     }
 
-    public void borrarProducto(Long idCarrito, String nombre) {
+    public String borrarProducto(Long idCarrito, String nombre) {
+
+        StringBuilder sb = new StringBuilder();
 
         Producto producto = productoRepository.findByNombreAndCarrito(nombre, idCarrito);
+
+
 
         if (producto != null) {
             if (producto.getCantidad() == 1) {
@@ -102,7 +126,13 @@ public class CarritoService {
             } else {
                 producto.setCantidad(producto.getCantidad() - 1);
             }
+
+            sb.append("Producto borrado con éxito");
+        } else {
+            sb.append("No existe ese producto en ese carrito");
         }
+
+        return sb.toString();
     }
 
     public CarritoDto getCarrito(Long idUsuario) {
@@ -117,14 +147,16 @@ public class CarritoService {
 
     }
 
-    public void finalizarCarrito(Long idCarrito) throws Exception {
+    public String finalizarCarrito(Long idCarrito) throws Exception {
+
+        StringBuilder sb = new StringBuilder();
 
         Optional<Carrito> carritoOptional = carritoRepository.findById(idCarrito);
 
         Carrito carrito = carritoOptional.orElseThrow(Exception::new);
 
         if (carrito.getFinalizado()) {
-            return;
+            sb.append("Carrito ya estaba cerrado.");
         } else {
             carrito.setFinalizado(true);
             Compra compra = new Compra();
@@ -132,7 +164,11 @@ public class CarritoService {
             compra.setCarrito(carrito);
             compra.setUsuario(carrito.getUsuario());
             compraRepository.save(compra);
+
+            sb.append("Carrito cerrado con un total de: $").append(compra.getPrecio());
         }
+
+        return sb.toString();
 
     }
 

@@ -19,29 +19,29 @@ public class CarritoController {
     private CarritoService carritoService;
 
     @PostMapping("/new")
-    public void crearCarrito(@RequestBody CrearCarritoRequest request) {
+    public String crearCarrito(@RequestBody CrearCarritoRequest request) {
 
 
-        carritoService.crearCarrito(request.getDocumento(), request.getIsSpecial());
+        return carritoService.crearCarrito(request.getDocumento(), request.getIsSpecial());
     }
 
     @DeleteMapping("/{idCarrito}")
-    public void borrarCarrito(@PathVariable Long idCarrito) {
+    public String borrarCarrito(@PathVariable Long idCarrito) {
 
-        carritoService.borrarCarrito(idCarrito);
+        return carritoService.borrarCarrito(idCarrito);
     }
 
     @PostMapping("/add")
-    public void agregarProducto(@Valid @RequestBody ProductoRequest request) {
+    public String agregarProducto(@Valid @RequestBody ProductoRequest request) {
 
-        carritoService.agregarProducto(request.getIdCarrito(), request.getNombre(), request.getPrecio());
+        return carritoService.agregarProducto(request.getIdCarrito(), request.getNombre(), request.getPrecio());
 
     }
 
     @PostMapping("/delete")
-    public void borrarProducto(@RequestBody ProductoRequest request) {
+    public String borrarProducto(@RequestBody ProductoRequest request) {
 
-        carritoService.borrarProducto(request.getIdCarrito(), request.getNombre());
+        return carritoService.borrarProducto(request.getIdCarrito(), request.getNombre());
     }
 
     @GetMapping
@@ -51,14 +51,17 @@ public class CarritoController {
     }
 
     @PostMapping("/finalizar/{idCarrito}")
-    public void finalizarCarrito(@PathVariable Long idCarrito) {
+    public String finalizarCarrito(@PathVariable Long idCarrito) {
+
+        String response = null;
 
         try {
-            carritoService.finalizarCarrito(idCarrito);
+             response = carritoService.finalizarCarrito(idCarrito);
         } catch (Exception e) {
-            return;
+            response = "No existe carrito activo con esa id";
         }
 
+        return response;
     }
 
 
