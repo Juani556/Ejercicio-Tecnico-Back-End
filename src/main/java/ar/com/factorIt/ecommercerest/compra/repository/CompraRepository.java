@@ -1,4 +1,4 @@
-package ar.com.factorIt.ecommercerest.compra.controller.repository;
+package ar.com.factorIt.ecommercerest.compra.repository;
 
 import ar.com.factorIt.ecommercerest.compra.entity.Compra;
 import org.springframework.data.jpa.repository.JpaRepository;

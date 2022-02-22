@@ -4,7 +4,7 @@ package ar.com.factorIt.ecommercerest.compra.service;
 import ar.com.factorIt.ecommercerest.compra.dto.CompraDto;
 import ar.com.factorIt.ecommercerest.compra.entity.Compra;
 import ar.com.factorIt.ecommercerest.compra.mapper.CompraMapper;
-import ar.com.factorIt.ecommercerest.compra.controller.repository.CompraRepository;
+import ar.com.factorIt.ecommercerest.compra.repository.CompraRepository;
 import ar.com.factorIt.ecommercerest.compra.controller.request.CompraRequest;
 import ar.com.factorIt.ecommercerest.usuario.service.UserService;
 import ar.com.factorIt.ecommercerest.usuario.entity.Usuario;

@@ -5,7 +5,7 @@ import ar.com.factorIt.ecommercerest.carrito.entity.Carrito;
 import ar.com.factorIt.ecommercerest.carrito.mapper.CarritoMapper;
 import ar.com.factorIt.ecommercerest.carrito.repository.CarritoRepository;
 import ar.com.factorIt.ecommercerest.compra.entity.Compra;
-import ar.com.factorIt.ecommercerest.compra.controller.repository.CompraRepository;
+import ar.com.factorIt.ecommercerest.compra.repository.CompraRepository;
 import ar.com.factorIt.ecommercerest.producto.entity.Producto;
 import ar.com.factorIt.ecommercerest.producto.repository.ProductoRepository;
 import ar.com.factorIt.ecommercerest.usuario.service.UserService;
