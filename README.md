@@ -1,8 +1,8 @@
 # ecommerce-rest
 
-##Endpoints
+## Endpoints
 
-###POST /carrito/new
+### POST /carrito/new
 
 Crea un carrito nuevo.
 Recibe un objeto JSON de este estilo
@@ -12,7 +12,7 @@ Recibe un objeto JSON de este estilo
 "isSpecial": true
 }
 
-###DELETE /carrito/{idCarrito}
+### DELETE /carrito/{idCarrito}
 
 Borra un carrito.
 Se pasa el id del carrito en el PATH
